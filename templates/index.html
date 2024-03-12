@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGNOU - Term End Result</title>
+    <meta name="description" content="IGNOU Term End Result.">
+    <meta name="keywords" content="ignou, result, web app, view result, save result">
+    <meta name="author" content="Rishi Giri">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=KoHo:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+        body {
+            font-family: "KoHo", sans-serif;
+            font-weight: 200;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #555555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultContainer {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: left;
+        }
+
+        #statusContainer {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #refreshBtn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: grey;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #refreshBtn:hover {
+            background-color: darkslategray;
+        }
+
+        .actionBtn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .actionBtn.delete {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+
+        .actionBtn.delete:hover {
+            background-color: #c82333;
+        }
+      </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>IGNOU RESULTS</h1>
+        <form id="fetchForm">
+            <label for="url"></label>
+            <input type="text" id="url" name="url" placeholder="Paste Term-end Result Link">
+            <label for="enrollment"></label>
+            <input type="text" id="enrollment" name="enrollment" placeholder="Enter Your Enrollment Number">
+            <button type="submit">Fetch Data</button>
+        </form>
+        <div id="resultContainer"></div>
+        <div id="statusContainer"></div>
+        <button id="refreshBtn">REFRESH</button>
+        <button id="deleteBtn" class="actionBtn delete">REMOVE</button>
+    </div>
+    <script>
+    window.onload = function() {
+        const savedData = localStorage.getItem('fetchedData');
+        if (savedData) {
+            document.getElementById('resultContainer').innerHTML = savedData;
+            document.getElementById('fetchForm').style.display = 'none'; // Hide the form
+            document.getElementById('deleteBtn').style.display = 'inline-block';
+        } else {
+            document.getElementById('deleteBtn').style.display = 'none';
+            document.getElementById('refreshBtn').style.display = 'none';
+        }
+
+        const savedURL = localStorage.getItem('savedURL');
+        const savedEnrollment = localStorage.getItem('savedEnrollment');
+        if (savedURL) {
+            document.getElementById('url').value = savedURL;
+        }
+        if (savedEnrollment) {
+            document.getElementById('enrollment').value = savedEnrollment;
+        }
+        document.getElementById('last').innerText = localStorage.getItem('lastChecked')
+    }
+
+    document.getElementById('fetchForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const response = await fetch('/fetch_data', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.text();
+        document.getElementById('resultContainer').innerHTML = data;
+        localStorage.setItem('fetchedData', data);
+        document.getElementById('deleteBtn').style.display = 'inline-block';
+        localStorage.setItem('savedURL', formData.get('url'));
+        localStorage.setItem('savedEnrollment', formData.get('enrollment'));
+        document.getElementById('fetchForm').style.display = 'none';
+        document.getElementById('refreshBtn').style.display = 'inline-block';
+
+    });
+
+    document.getElementById('refreshBtn').addEventListener('click', async function() {
+        const formData = new FormData(document.getElementById('fetchForm'));
+        const response = await fetch('/fetch_data', {
+            method: 'POST',
+            body: formData
+        });
+        const newData = await response.text();
+        const savedData = localStorage.getItem('fetchedData');
+
+        if (newData !== savedData) {
+            document.getElementById('resultContainer').innerHTML = newData;
+            localStorage.setItem('fetchedData', newData);
+        } else {
+            document.getElementById('statusContainer').innerText = 'There\'s no new result available. Come back soon!';
+        }
+        const timestamp = new Date().toLocaleString();
+        localStorage.setItem('lastChecked', timestamp);
+        document.getElementById('last').innerText = 'Just Now';
+    });
+
+    document.getElementById('deleteBtn').addEventListener('click', function() {
+        localStorage.removeItem('fetchedData');
+        document.getElementById('resultContainer').innerHTML = 'Data deleted from local storage.';
+        document.getElementById('fetchForm').style.display = 'block';
+        document.getElementById('deleteBtn').style.display = 'none';
+        document.getElementById('refreshBtn').style.display = 'none';
+    });
+    </script>
+</body>
+
+</html>

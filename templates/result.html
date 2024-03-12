@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Data</title>
+    <style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        border: 1px solid #dddddd;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+    </style>
+</head>
+
+<body>
+    {% if additional_info %}
+    <div id="additionalInfoContainer">
+        <p align="center">{{ additional_info.title }}</p>
+        <table>
+            <tr>
+                <td>Program Code</td>
+                <td>{{ additional_info.program }}</td>
+            </tr>
+            <tr>
+                <td>Enrollment Number</td>
+                <td>{{ additional_info.enrollment_number }}</td>
+            </tr>
+            <tr>
+                <td>Last Update by IGNOU</td>
+                <td>{{ additional_info.status.split('on')[1] }}</td>
+            </tr>
+            <tr>
+                <td>Last Checked</td>
+                <td><span id="last"></span></td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Marks</th>
+                <th>Max Marks</th>
+                <!-- <th>Month Year</th> -->
+                <th>Updated</th>
+                <!-- <th>Remarks</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row['Course Code'] }}</td>
+                <td>{{ row['Marks/Grade'] }}</td>
+                <td>{{ row['Max Marks'] }}</td>
+                <!-- <td>{{ row['Month Year'] }}</td> -->
+                <td>{{ row['Date of updation on website'] }}</td>
+                <!-- <td>{{ row['Remarks'] }}</td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
