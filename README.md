@@ -6,7 +6,10 @@ The IGNOU Term End Result Viewer is a web application built with Flask that allo
 
 ## Features
 
-- Fetch and display term-end examination results by providing the result link and enrollment number.
+- Fetch and display term-end examination results by providing the session and enrollment number, which removes the hassle of finding out the link related to the particular session result.
+
+<p align="center"><img src="media/ignou.png" alt=""></p>
+
 - Once entered, you don't have to worry about remembering your details.
 - Refresh to fetch the latest results without entering any details.
 - Delete locally saved data (used for offline viewing) when no longer needed.
@@ -39,9 +42,9 @@ python app.py
 
 ## Plan
 
-It's an on going project where I'll build multiple tools and services related to IGNOU.
+It's an on going project where I'll build multiple tools to simplify IGNOU related tasks.
 
-[x] CLI for IGNOU Term End Result Viewer - [`View`](ter.py)
+[X] CLI for IGNOU Term End Result Viewer - [`View`](ter.py)
 
 ## License
 
