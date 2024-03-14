@@ -27,7 +27,7 @@
 
         .container {
             text-align: center;
-            max-width: 600px;
+            max-width: 400px;
             width: 90%;
             background-color: #ffffff;
             padding: 20px;
@@ -51,7 +51,7 @@
             color: #555555;
         }
 
-        input[type="text"] {
+        select {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -71,6 +71,28 @@
 
         button:hover {
             background-color: #0056b3;
+        }
+
+        input[type="text"] {
+            text-align: center;
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input:focus::placeholder {
+            color: transparent;
+        }
+
+        .formContainer {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
         }
 
         #resultContainer {
@@ -115,6 +137,19 @@
         .actionBtn.delete:hover {
             background-color: #c82333;
         }
+
+        #date {
+            width: 100%;
+        }
+
+        #year {
+            width: 100%;
+        }
+
+        #enrollment {
+            width: 100%;
+        }
+
       </style>
 </head>
 
@@ -122,8 +157,27 @@
     <div class="container">
         <h1>IGNOU RESULTS</h1>
         <form id="fetchForm">
-            <label for="url"></label>
-            <input type="text" id="url" name="url" placeholder="Paste Term-end Result Link">
+            <div class="formContainer">
+                <div id="date">
+                    <select id="month" name="month">
+                        <option value="" disabled selected>SELECT MONTH</option>
+                        <option value="June">JUNE</option>
+                        <option value="Dec">DECEMBER</option>
+                    </select>
+                </div>
+                <div id="year">
+                    <select id="year" name="year">
+                        <option value="" disabled selected>SELECT YEAR</option>
+                        <option value="24">2024</option>
+                        <option value="23">2023</option>
+                        <option value="22">2022</option>
+                        <option value="21">2021</option>
+                        <option value="20">2020</option>
+                        <option value="19">2019</option>
+                        <option value="18">2018</option>
+                    </select>
+                </div>
+            </div>
             <label for="enrollment"></label>
             <input type="text" id="enrollment" name="enrollment" placeholder="Enter Your Enrollment Number">
             <button type="submit">Fetch Data</button>
@@ -145,11 +199,11 @@
             document.getElementById('refreshBtn').style.display = 'none';
         }
 
-        const savedURL = localStorage.getItem('savedURL');
+        // const savedURL = localStorage.getItem('savedURL');
         const savedEnrollment = localStorage.getItem('savedEnrollment');
-        if (savedURL) {
-            document.getElementById('url').value = savedURL;
-        }
+        // if (savedURL) {
+        //     document.getElementById('url').value = savedURL;
+        // }
         if (savedEnrollment) {
             document.getElementById('enrollment').value = savedEnrollment;
         }
@@ -163,11 +217,13 @@
             method: 'POST',
             body: formData
         });
+
+        console.log(formData)
         const data = await response.text();
         document.getElementById('resultContainer').innerHTML = data;
         localStorage.setItem('fetchedData', data);
         document.getElementById('deleteBtn').style.display = 'inline-block';
-        localStorage.setItem('savedURL', formData.get('url'));
+        // localStorage.setItem('savedURL', formData.get('url'));
         localStorage.setItem('savedEnrollment', formData.get('enrollment'));
         document.getElementById('fetchForm').style.display = 'none';
         document.getElementById('refreshBtn').style.display = 'inline-block';
