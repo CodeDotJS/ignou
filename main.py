@@ -50,7 +50,9 @@ def index():
 @app.route('/fetch_data', methods=['POST'])
 def fetch_data():
     try:
-        url = request.form['url']
+        month = request.form['month']
+        year = request.form['year']
+        url = f"https://termendresult.ignou.ac.in/TermEnd{month}{year}/TermEnd{month}{year}.asp"
         enrollment = request.form['enrollment']
         data, additional_info = fetch_and_process_data(url, enrollment)
         if data is None:
