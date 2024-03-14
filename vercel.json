@@ -13,6 +13,5 @@
     {
         "src": "/(.*)",
         "dest": "main.py"
-    }],
-    "exclude": ["tools"]
+    }]
 }
