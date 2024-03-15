@@ -37,9 +37,9 @@ def pretty_print(data):
     df = pd.DataFrame(data)
     print(tabulate(df, headers='keys', tablefmt='pretty', showindex=False))
 
-enrollment_number = '198027858'
-month = 'June'
-year = '2022'
+enrollment_number = 'YOUR ENROLLMENT NUMBER'
+month = 'SESSION - MONTH'
+year = 'SESSION - YEAR'
 
 response_text = fetch_data(enrollment_number, month, year)
 
