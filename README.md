@@ -44,7 +44,9 @@ python app.py
 
 It's an on going project where I'll build multiple tools to simplify IGNOU related tasks.
 
-[X] CLI for IGNOU Term End Result Viewer - [`View`](ter.py)
+- CLI for IGNOU Term End Result Viewer - [`View`](tools/termendresult.py)
+
+<p align="center"><img src="media/termend.png" alt=""></p>
 
 ## License
 
