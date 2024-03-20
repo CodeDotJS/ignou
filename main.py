@@ -56,7 +56,7 @@ def fetch_data():
         enrollment = request.form['enrollment']
         data, additional_info = fetch_and_process_data(url, enrollment)
         if data is None:
-            return "Error occurred while fetching result."
+            return f"<p id='error'>Result Unavailable for Enrollment Number {enrollment}</p>"
         return render_template('result.html', data=data, additional_info=additional_info)
     except Exception as e:
         return f"Error occurred while processing result: {e}"
