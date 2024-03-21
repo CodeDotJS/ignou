@@ -2,13 +2,13 @@
 
 The IGNOU Term End Result Viewer is a web application built with Flask that allows users to fetch and view their term-end examination results from the result portal of Indira Gandhi National Open University.
 
-- __View the [live](https://ignoux.vercel.app) version__.
+<p align="center"><img width="80%" src="media/ignou.jpg" alt=""></p>
+
+<p align="center"><b>Check out the <a href="https://ignoux.vercel.app">live</a> version.</b></p>
 
 ## Features
 
 - Fetch and display term-end examination results by providing the session and enrollment number, which removes the hassle of finding out the link related to the particular session result.
-
-<p align="center"><img src="media/ignou.png" alt=""></p>
 
 - Once entered, you don't have to worry about remembering your details.
 - Refresh to fetch the latest results without entering any details.
