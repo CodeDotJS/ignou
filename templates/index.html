@@ -11,6 +11,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
     <div class="container">
         <h1>IGNOU RESULTS</h1>
@@ -40,5 +41,11 @@
         <button id="deleteBtn" class="actionBtn delete">REMOVE</button>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+    window.va = window.va || function() {
+        (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
+
 </html>
